@@ -1,0 +1,30 @@
+{
+    "gameAssets":{
+        "assets":{
+            "sounds": {
+                "pop": "assets/sounds/pop.mp3",
+                "card_sound": "assets/sounds/card_sound.mp3",
+                "walking_jazz": "assets/sounds/walking_jazz.mp3"
+            },
+            "sprites": {
+                "gameAtlas": "assets/images/game/game.json",
+                "grobold": "assets/images/game/font/grobold.fnt",
+                "backgroundBlue": "assets/images/game/background_blue.png"
+            }
+        }
+    },
+    "preloadAssets": {
+        "assets": {
+            "sounds": {
+                "pop": "assets/sounds/pop.mp3"
+            },
+            "sprites": {
+                "gameAtlas": "assets/images/game/game.json",
+                "grobold": "assets/images/game/font/grobold.fnt"
+            }
+        }
+    }
+    
+    
+}
+
