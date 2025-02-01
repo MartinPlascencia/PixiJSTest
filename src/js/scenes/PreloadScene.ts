@@ -1,91 +1,75 @@
 import * as PIXI from 'pixi.js';
 import gsap from 'gsap';
 import BasicAnimations from '../helpers/BasicAnimations';
+import CardsScene from './CardsScene';
 import { Scene } from '../helpers/Scene';
+import { sceneManager } from '../main';
 
 import assetsData from '../../assets/data/assets.json';
 
 import sound from '../utilities/Sound';
 
 export default class PreloadScene extends Scene {
-    private _app: PIXI.Application;
-    private _basicAnimations: BasicAnimations;
 
+    private _app: PIXI.Application;
+    private _loadingBar: PIXI.Graphics | undefined;
+    private _loadingBarWidth: number = 200;
     constructor(app: PIXI.Application) {
         super();
         this._app = app;
-        this._basicAnimations = new BasicAnimations();
     }
 
     protected onInit(): void {
-        this.preloadAssets();
+        this._create();
     }
 
-    private  preloadAssets(): void {
-        const currentBundle = assetsData["gameAssets"];
-        PIXI.Assets.addBundle("gameAssets",currentBundle.assets.sprites);
-        PIXI.Assets.loadBundle("gameAssets", (progress) => {
-            console.log('Loading progress:', progress);
-        }).then(async (resources) => {
-            console.log('Assets loaded:', resources);
-            await this.loadSounds(currentBundle.assets.sounds);
-            this.create();
+    private async _create(): Promise<void> {
+        const background = new PIXI.Graphics().rect(0, 0, this._app.screen.width, this._app.screen.height).fill(0x33067a);
+        this._app.stage.addChild(background);
+
+        const title = new PIXI.Text('Loading...', {
+            fontFamily: 'Impact',
+            fontSize: 48,
+            fill: 0xFFFFFF,
+            align: 'center'
+        });
+        title.anchor.set(0.5);
+        title.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.5);
+        this._app.stage.addChild(title);
+        gsap.to(title, { alpha: 0.5, duration: 1, repeat: -1, yoyo: true });
+
+        const loadingBar = new PIXI.Graphics().rect(0, 0, this._loadingBarWidth, 50).fill(0xfad33c);
+        loadingBar.position.set(this._app.screen.width * 0.5 - this._loadingBarWidth * 0.5, this._app.screen.height * 0.6);
+        loadingBar.scale.x = 0;
+        this._app.stage.addChild(loadingBar);
+
+
+        this._preloadAssets("gameAssets", this._assetsReady.bind(this), (progress: number) => {
+            loadingBar.scale.x = progress;
         });
     }
 
-    private async loadSounds(sounds: { [key: string]: string }): Promise<void> {
+    private _preloadAssets(bundleName : keyof typeof assetsData, callback?: () => void, progressCallback?: (progress: number) => void): void {
+        const currentBundle = assetsData[bundleName].assets;
+        PIXI.Assets.addBundle(bundleName,currentBundle.sprites);
+        PIXI.Assets.loadBundle(bundleName, (progress) => {
+            if (progressCallback) {
+                progressCallback(progress);
+            }
+        }).then(async (resources) => {
+            await this._loadSounds(currentBundle.sounds);
+            if (callback) {
+                callback();
+            }
+        });
+    }
+
+    private async _loadSounds(sounds: { [key: string]: string }): Promise<void> {
         await Promise.all(Object.entries(sounds).map(([key, url]) => sound.loadSound(key, url)));
         console.log('Sounds loaded');
     }   
 
-    private create(): void {
-
-        const bitmapFontText = new PIXI.BitmapText({
-            text: 'bitmap fonts are supported!\nWoo yay!',
-            style: {
-                fontFamily: 'grobold',
-                fontSize: 25,
-                align: 'center',
-            },
-        });
-        bitmapFontText.x = this._app.screen.width / 2;
-        bitmapFontText.y = 100;
-        bitmapFontText.anchor.set(0.5);
-        this._app.stage.addChild(bitmapFontText);
-
-        const fish = new PIXI.Sprite(PIXI.Assets.get('gameAtlas').textures['brown_fish']);
-        fish.x = 200;
-        fish.y = 200;
-        this._app.stage.addChild(fish);
-        console.log('Fish loaded');
-
-        const buttonContainer = new PIXI.Container();
-        buttonContainer.x = this._app.screen.width / 2;
-        buttonContainer.y = this._app.screen.height - 100;
-        buttonContainer.eventMode = 'static';
-        buttonContainer.cursor = 'pointer';
-        this._app.stage.addChild(buttonContainer);
-
-        const buttonImage = PIXI.Sprite.from(PIXI.Assets.get('gameAtlas').textures['button']);
-        buttonImage.anchor.set(0.5);
-        buttonContainer.addChild(buttonImage);
-
-        const buttonText = new PIXI.Text('Click me!', {
-            fill: 'white',
-            fontSize: 24,
-        });
-        buttonText.y =-5;
-        buttonText.anchor.set(0.5);
-        buttonContainer.addChild(buttonText);
-
-        buttonContainer.on('pointerdown', () => {
-            sound.playSound('pop');
-            this._basicAnimations.animateButton(buttonContainer, () => {
-                console.log('Button clicked!');
-            });
-        });
-
-        gsap.to(fish, { x: 600, duration: 2, ease: 'power2.inOut', repeat: -1, yoyo: true });
-
+    private _assetsReady(): void {
+        sceneManager.changeScene(new CardsScene(this._app));
     }
 }

@@ -21,7 +21,7 @@ export abstract class Scene extends PIXI.Container {
 
     destroyScene(): void {
         this.removeAllListeners();
-        this.destroy({ children: true });
         this.onDestroy();
+        this.destroy({ children: true });
     }
 }

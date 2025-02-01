@@ -1,5 +1,13 @@
 {"frames": {
 
+"arrow":
+{
+	"frame": {"x":641,"y":1,"w":150,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":150},
+	"sourceSize": {"w":150,"h":150}
+},
 "button":
 {
 	"frame": {"x":1,"y":373,"w":200,"h":69},
@@ -56,8 +64,8 @@
 	"version": "1.1",
 	"image": "game.png",
 	"format": "RGBA8888",
-	"size": {"w":640,"h":443},
+	"size": {"w":792,"h":443},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c5b2439c67914516d3127285517498b0:30690190914170c493888bc2c6940213:fc2835210f98bae8e8c1b7f0a84c9321$"
+	"smartupdate": "$TexturePacker:SmartUpdate:5baf74518622a7f563b75751a697d235:fb22e235d677d21fd11496279a57e7da:fc2835210f98bae8e8c1b7f0a84c9321$"
 }
 }

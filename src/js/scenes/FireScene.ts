@@ -2,8 +2,7 @@ import * as PIXI from 'pixi.js';
 import FireParticles from '../helpers/FireParticles';
 import { Scene } from '../helpers/Scene';
 import Fps from '../helpers/Fps';
-import CardsScene from './CardsScene';
-import { sceneManager } from '../main';
+import TopGameMenu from '../helpers/TopGameMenu';
 
 import assetsData from '../../assets/data/assets.json';
 
@@ -65,21 +64,11 @@ export default class Fire extends Scene {
         this._fireContainer.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.5);
         this._app.stage.addChild(this._fireContainer);
 
-        const button = new PIXI.Sprite(PIXI.Assets.get('gameAtlas').textures['button']);
-        button.anchor.set(0.5);
-        button.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.9);
-        button.eventMode = 'static';
-        button.cursor = 'pointer';
-        this._app.stage.addChild(button);
-        button.on('pointerdown', () => {
-            sound.playSound('pop');
-            sceneManager.changeScene(new CardsScene(this._app));
-        });
-
 
         sound.playSound('fire_sound', true, 0.2);
         this._followMouse();
         this._createFPSCounter();
+        this._createTopGameMenu();
     }
 
     private _followMouse(): void {
@@ -104,5 +93,10 @@ export default class Fire extends Scene {
     public onDestroy(): void {
         sound.stopAllSounds();
         this._fpsCounter?.removeUpdateListener();
+    }
+
+    private _createTopGameMenu(): void {
+        const topGameMenu = new TopGameMenu(this._app);
+        this._app.stage.addChild(topGameMenu);
     }
 }

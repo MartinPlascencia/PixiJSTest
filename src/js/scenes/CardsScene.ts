@@ -3,6 +3,7 @@ import BasicAnimations from '../helpers/BasicAnimations';
 import CardDeck from '../helpers/CardDeck';
 import CardsDeckManager from '../helpers/CardsDeckManager';
 import Fps from '../helpers/Fps';
+import TopGameMenu from '../helpers/TopGameMenu';
 import { Scene } from '../helpers/Scene';
 import { sceneManager } from '../main';
 import FireScene from './FireScene';
@@ -26,10 +27,10 @@ export default class CardsScene extends Scene {
     }
 
     protected onInit(): void {
-        this.preloadAssets();
+        this.create();
     }
 
-    private  preloadAssets(): void {
+    /* private  preloadAssets(): void {
         const currentBundle = assetsData["gameAssets"];
         PIXI.Assets.addBundle("gameAssets",currentBundle.assets.sprites);
         PIXI.Assets.loadBundle("gameAssets", (progress) => {
@@ -44,7 +45,7 @@ export default class CardsScene extends Scene {
     private async loadSounds(sounds: { [key: string]: string }): Promise<void> {
         await Promise.all(Object.entries(sounds).map(([key, url]) => sound.loadSound(key, url)));
         console.log('Sounds loaded');
-    }   
+    }   */ 
 
     private create(): void {
 
@@ -66,30 +67,20 @@ export default class CardsScene extends Scene {
             },
         });
         bitmapFontText.x = this._app.screen.width / 2;
-        bitmapFontText.y = this._app.screen.height * 0.1;
+        bitmapFontText.y = this._app.screen.height * 0.15;
         bitmapFontText.anchor.set(0.5);
         this._app.stage.addChild(bitmapFontText);
 
-        const button = new PIXI.Sprite(PIXI.Assets.get('gameAtlas').textures['button']);
-        button.anchor.set(0.5);
-        button.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.9);
-        button.eventMode = 'static';
-        button.cursor = 'pointer';
-        this._app.stage.addChild(button);
-        button.on('pointerdown', () => {
-            sound.playSound('pop');
-            sceneManager.changeScene(new FireScene(this._app));
-        });
-
         this._createCardDecks();
         this._createFPSCounter();
+        this._createTopGameMenu();
     }
 
     private _createCardDecks(): void {
 
         const cardDeck = new CardDeck(gameConfig.number_of_cards, gameConfig.cards_offset);
         cardDeck.x = this._app.screen.width * 0.3;
-        cardDeck.y = this._app.screen.height * 0.55;
+        cardDeck.y = this._app.screen.height * 0.6;
         this._app.stage.addChild(cardDeck);
 
         const cardDeck2 = new CardDeck(1, gameConfig.cards_offset);
@@ -97,8 +88,11 @@ export default class CardsScene extends Scene {
         cardDeck2.y = cardDeck.y;
         this._app.stage.addChild(cardDeck2);
 
+        const boardContainer = new PIXI.Container();
+        this._app.stage.addChild(boardContainer);
+
         this._cardsDeckManager = new CardsDeckManager();
-        this._cardsDeckManager.moveCardsToDeck(this._app.stage, cardDeck, cardDeck2, gameConfig.cards_change_frequency, gameConfig.cards_change_speed);
+        this._cardsDeckManager.moveCardsToDeck(boardContainer, cardDeck, cardDeck2, gameConfig.cards_change_frequency, gameConfig.cards_change_speed);
 
     }
 
@@ -111,5 +105,10 @@ export default class CardsScene extends Scene {
         this._cardsDeckManager?.stopMovingCardsToDeck();
         this._fpsCounter?.removeUpdateListener();
 
+    }
+
+    private _createTopGameMenu(): void {
+        const topGameMenu = new TopGameMenu(this._app);
+        this._app.stage.addChild(topGameMenu);
     }
 }

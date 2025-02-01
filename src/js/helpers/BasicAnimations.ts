@@ -18,8 +18,8 @@ export default class BasicAnimations {
             ease: 'linear',
             onComplete: () => {
                 gsap.to(buttonContainer.scale, { 
-                    x: 0.9, 
-                    y: 0.9, 
+                    x: buttonContainer.scale.x * 0.9, 
+                    y: buttonContainer.scale.y * 0.9, 
                     duration: 0.075, 
                     yoyo: true, 
                     repeat: 1,
@@ -28,19 +28,16 @@ export default class BasicAnimations {
                         if(callback !== undefined){
                             callback();
                         }
-                        buttonContainer.eventMode = 'static';
                     }
                 });
             }
         });
     }
 
-    public PopObject(object: PIXI.Container | PIXI.Sprite): void {
-        const objectOriginalScale = object.scale;
-        object.scale.set(0,0);
-        gsap.to(object.scale, { 
-            x:objectOriginalScale.x, 
-            y: objectOriginalScale.y, 
+    public popObject(object: PIXI.Container | PIXI.Sprite): void {
+        gsap.from(object.scale, { 
+            x: 0, 
+            y: 0, 
             duration: 0.4, 
             ease: 'back.out',
         });

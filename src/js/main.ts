@@ -6,6 +6,7 @@ import FireScene from './scenes/FireScene';
 import Orientation from './libs/Orientation';
 import * as PIXI from 'pixi.js';
 import { SceneManager } from './helpers/SceneManager';
+import Fire from './scenes/FireScene';
 
 const gameWidth = 1920;
 const gameHeight = Math.round(gameWidth * (window.innerHeight / window.innerWidth));
@@ -26,7 +27,7 @@ export let sceneManager: SceneManager;
 async function InitializeApp(){
     const app = new PIXI.Application();
     await app.init({
-        backgroundColor: '#1099bb',
+        backgroundColor: '#ffffff',
         resizeTo: window,
         width: gameWidth,
         height: gameHeight,
@@ -34,7 +35,7 @@ async function InitializeApp(){
 
     document.body.appendChild(app.canvas);
     sceneManager = new SceneManager(app);
-    sceneManager.changeScene(new ChatScene(app));
+    sceneManager.changeScene(new PreloadScene(app));
 
     app.ticker.add((delta: PIXI.Ticker) => {
         sceneManager.update(delta.deltaTime);

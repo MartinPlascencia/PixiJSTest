@@ -2,16 +2,16 @@ import * as PIXI from 'pixi.js';
 import CardDeck from './CardDeck';
 import gsap from 'gsap';
 
-import sound from '../utilities/Sound';
+import sound from '../../utilities/Sound';
 
 export default class CardsDeckManager {
 
     private _moveInterval?: NodeJS.Timeout;
-    public moveCardsToDeck(stage : PIXI.Container,initialDeck : CardDeck, finalDeck : CardDeck, moveFrequency : number, timeToMove : number): void {
+    public moveCardsToDeck(boardContainer : PIXI.Container,initialDeck : CardDeck, finalDeck : CardDeck, moveFrequency : number, timeToMove : number): void {
         const cards = initialDeck.children;
         this._moveInterval = setInterval(() => {
             const card = initialDeck.removeLastCard();
-            stage.addChild(card);
+            boardContainer.addChild(card);
             card.x += initialDeck.x;
             card.y += initialDeck.y;
 

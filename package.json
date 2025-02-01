@@ -4,7 +4,6 @@
   "description": "",
   "main": "src/js/main.ts",
   "scripts": {
-    "test": "jest",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production"
   },
