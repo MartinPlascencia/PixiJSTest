@@ -1,5 +1,5 @@
 {
-  "name": "ocean_speak",
+  "name": "pixijs_test",
   "version": "0.0.0",
   "description": "",
   "main": "src/js/main.ts",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
+    "@types/howler": "^2.2.12",
     "@types/lodash.debounce": "^4.0.9",
     "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "gsap": "^3.12.7",
+    "howler": "^2.2.4",
     "npm-check-unused": "^6.0.0",
     "pixi.js": "8.0"
   }

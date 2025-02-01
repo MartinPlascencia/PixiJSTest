@@ -30,18 +30,6 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "phaser",
-          enforce: true,
-          chunks: "initial",
-        },
-      },
-    },
-  },
   resolve: {
     extensions: [".js", ".ts", ".json"],
   },

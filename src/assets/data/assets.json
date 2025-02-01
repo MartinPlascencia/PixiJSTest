@@ -8,7 +8,8 @@
                 "fire_sound": "assets/sounds/fire_sound.mp3",
                 "bbt_song": "assets/sounds/bbt_song.mp3",
                 "click": "assets/sounds/click.mp3",
-                "pop": "assets/sounds/pop.mp3"
+                "pop": "assets/sounds/pop.mp3",
+                "game_start": "assets/sounds/Game_Start.mp3"
             },
             "sprites": {
                 "gameAtlas": "assets/images/game/game.json",

@@ -12,11 +12,12 @@ import sound from '../utilities/Sound';
 export default class PreloadScene extends Scene {
 
     private _app: PIXI.Application;
-    private _loadingBar: PIXI.Graphics | undefined;
     private _loadingBarWidth: number = 200;
+    private _basicAnimations: BasicAnimations;  
     constructor(app: PIXI.Application) {
         super();
         this._app = app;
+        this._basicAnimations = new BasicAnimations();
     }
 
     protected onInit(): void {
@@ -34,12 +35,12 @@ export default class PreloadScene extends Scene {
             align: 'center'
         });
         title.anchor.set(0.5);
-        title.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.5);
+        title.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.4);
         this._app.stage.addChild(title);
         gsap.to(title, { alpha: 0.5, duration: 1, repeat: -1, yoyo: true });
 
         const loadingBar = new PIXI.Graphics().rect(0, 0, this._loadingBarWidth, 50).fill(0xfad33c);
-        loadingBar.position.set(this._app.screen.width * 0.5 - this._loadingBarWidth * 0.5, this._app.screen.height * 0.6);
+        loadingBar.position.set(this._app.screen.width * 0.5 - this._loadingBarWidth * 0.5, title.y + title.height * 0.8);
         loadingBar.scale.x = 0;
         this._app.stage.addChild(loadingBar);
 
@@ -66,10 +67,34 @@ export default class PreloadScene extends Scene {
 
     private async _loadSounds(sounds: { [key: string]: string }): Promise<void> {
         await Promise.all(Object.entries(sounds).map(([key, url]) => sound.loadSound(key, url)));
-        console.log('Sounds loaded');
     }   
 
     private _assetsReady(): void {
-        sceneManager.changeScene(new CardsScene(this._app));
+
+        const bitmapFontText = new PIXI.BitmapText({
+            text: 'Press to Continue',
+            style: {
+                fontFamily: 'futuraPTBold',
+                fontSize: 35,
+                align: 'center',
+            },
+        });
+        bitmapFontText.anchor.set(0.5, 1);
+        bitmapFontText.x = this._app.screen.width / 2;
+        bitmapFontText.y = this._app.screen.height - bitmapFontText.height * 0.1;
+        this._app.stage.addChild(bitmapFontText);
+        this._basicAnimations.popObject(bitmapFontText);
+        sound.playSound('game_start');
+
+        this._app.stage.interactive = true;
+        this._app.stage.on('pointerdown', () => {
+            this._app.stage.removeAllListeners();
+            sceneManager.changeScene(new CardsScene(this._app));
+        })
+    }
+
+    public onDestroy(): void {
+        this._app.stage.removeChildren();
+        gsap.globalTimeline.clear();
     }
 }

@@ -50,7 +50,6 @@ export default class Fire extends Scene {
         this._followMouse();
         this._createFPSCounter();
         this._createTopGameMenu();
-        //this._addEffects();
     }
 
     private _followMouse(): void {
@@ -73,6 +72,7 @@ export default class Fire extends Scene {
     }
 
     public onDestroy(): void {
+        (this._fireContainer as FireParticles)?.stopParticles();
         sound.stopAllSounds();
         this._fpsCounter?.removeUpdateListener();
     }

@@ -40,7 +40,7 @@ export default class ChatScene extends Scene {
         this._app.stage.addChild(background);
 
         const chatManager = new ChatManager(this._app);
-        chatManager.y = this._app.screen.height * 0.8;
+        chatManager.y = this._app.screen.height - 100;
         this._app.stage.addChild(chatManager);
         this._chatManager = chatManager;
 
