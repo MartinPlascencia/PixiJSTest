@@ -6,9 +6,10 @@ import sound from '../utilities/Sound';
 
 export default class CardsDeckManager {
 
+    private _moveInterval?: NodeJS.Timeout;
     public moveCardsToDeck(stage : PIXI.Container,initialDeck : CardDeck, finalDeck : CardDeck, moveFrequency : number, timeToMove : number): void {
         const cards = initialDeck.children;
-        const moveInterval = setInterval(() => {
+        this._moveInterval = setInterval(() => {
             const card = initialDeck.removeLastCard();
             stage.addChild(card);
             card.x += initialDeck.x;
@@ -23,7 +24,7 @@ export default class CardsDeckManager {
                 onComplete: () => {
                     finalDeck.addCard(card);
                     if (cards.length === 0) {
-                        clearInterval(moveInterval);
+                        clearInterval(this._moveInterval);
                     }
                 }
             });
@@ -36,5 +37,10 @@ export default class CardsDeckManager {
                 duration: 0.2,
             });
         }, moveFrequency * 1000);
+    }
+
+    public stopMovingCardsToDeck(): void {
+        gsap.globalTimeline.clear();
+        clearInterval(this._moveInterval);
     }
 }

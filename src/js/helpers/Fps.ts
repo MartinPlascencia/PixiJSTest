@@ -25,7 +25,7 @@ export default class Fps extends PIXI.BitmapText {
         }, this._updateFrequency);
     }
 
-    public removeUpdateListener(app : PIXI.Application): void {
+    public removeUpdateListener(): void {
         clearInterval(this._fpsInterval);
     }
 }

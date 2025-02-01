@@ -2,7 +2,9 @@ import * as PIXI from 'pixi.js';
 import BasicAnimations from '../helpers/BasicAnimations';
 import IconsManager from '../helpers/IconsManager';
 import ChatManager from '../helpers/ChatManager';
+import CardsScene from './CardsScene';
 import { Scene } from '../helpers/Scene';
+import { sceneManager } from '../main';
 import Fps from '../helpers/Fps';
 
 import assetsData from '../../assets/data/assets.json';
@@ -15,6 +17,7 @@ export default class ChatScene extends Scene {
     private _basicAnimations: BasicAnimations;
     private _chatData?: JSON;
     private _fpsCounter?: Fps;
+    private _chatManager?: ChatManager;
 
     constructor(app: PIXI.Application) {
         super();
@@ -56,14 +59,32 @@ export default class ChatScene extends Scene {
         const chatManager = new ChatManager(this._app);
         chatManager.y = this._app.screen.height * 0.8;
         this._app.stage.addChild(chatManager);
+        this._chatManager = chatManager;
 
         chatManager.showDialogs(this._chatData);
         this._createFpsCounter();
+
+        const button = new PIXI.Sprite(PIXI.Assets.get('gameAtlas').textures['button']);
+        button.anchor.set(0.5);
+        button.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.9);
+        button.eventMode = 'static';
+        button.cursor = 'pointer';
+        this._app.stage.addChild(button);
+        button.on('pointerdown', () => {
+            sound.playSound('pop');
+            sceneManager.changeScene(new CardsScene(this._app));
+        });
         
         sound.playSound('bbt_song', true,0.2);
     }
 
     private _createFpsCounter(): void {
         this._fpsCounter = new Fps(this._app,'');
+    }
+
+    public onDestroy(): void {
+        sound.stopAllSounds();
+        this._fpsCounter?.removeUpdateListener();
+        this._chatManager?.stopDialogs();
     }
 }

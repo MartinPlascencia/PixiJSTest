@@ -2,10 +2,10 @@ import { resolve } from "../../../webpack.config";
 
 class Sound {
     private static instance: Sound;
-    private sounds: Map<string, HTMLAudioElement>;
+    private _sounds: Map<string, HTMLAudioElement>;
 
     private constructor() {
-        this.sounds = new Map();
+        this._sounds = new Map();
     }
 
     public static getInstance(): Sound {
@@ -21,18 +21,18 @@ class Sound {
 
             audio.addEventListener('error', () => {
                 console.error(`Failed to load sound "${key}" from URL: ${url}`);
-                this.sounds.delete(key); 
+                this._sounds.delete(key); 
             });
 
             audio.addEventListener('canplaythrough', () => {
-                this.sounds.set(key, audio);
+                this._sounds.set(key, audio);
                 resolve();
             });
         });
     }
 
-    playSound(key: string, loop: boolean = false, volume: number = 1.0): void {
-        const sound = this.sounds.get(key);
+    public playSound(key: string, loop: boolean = false, volume: number = 1.0): void {
+        const sound = this._sounds.get(key);
         if (!sound) {
             console.error(`Sound "${key}" not found!`);
             return;
@@ -47,19 +47,28 @@ class Sound {
         });
     }
 
-    stopSound(key: string): void {
-        const sound = this.sounds.get(key);
+    public stopSound(key: string): void {
+        const sound = this._sounds.get(key);
         if (sound && !sound.paused) {
             sound.pause();
             sound.currentTime = 0;
         }
     }
 
-    setVolume(key: string, volume: number): void {
-        const sound = this.sounds.get(key);
+    public setVolume(key: string, volume: number): void {
+        const sound = this._sounds.get(key);
         if (sound) {
             sound.volume = Math.max(0, Math.min(1, volume)); 
         }
+    }
+
+    public stopAllSounds(): void {
+        this._sounds.forEach((sound) => {
+            if (!sound.paused) {
+                sound.pause();
+                sound.currentTime = 0;
+            }
+        });
     }
 }
 

@@ -1,5 +1,13 @@
 {"frames": {
 
+"button":
+{
+	"frame": {"x":1,"y":373,"w":200,"h":69},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":69},
+	"sourceSize": {"w":200,"h":69}
+},
 "card_0":
 {
 	"frame": {"x":337,"y":1,"w":150,"h":207},
@@ -48,8 +56,8 @@
 	"version": "1.1",
 	"image": "game.png",
 	"format": "RGBA8888",
-	"size": {"w":640,"h":418},
+	"size": {"w":640,"h":443},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8a6092039f60962011e4d516149e4fe9:3204d412d87ee278569536197bf32ca2:fc2835210f98bae8e8c1b7f0a84c9321$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c5b2439c67914516d3127285517498b0:30690190914170c493888bc2c6940213:fc2835210f98bae8e8c1b7f0a84c9321$"
 }
 }

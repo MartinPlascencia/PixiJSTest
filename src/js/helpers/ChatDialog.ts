@@ -12,6 +12,7 @@ export default class ChatDialog extends PIXI.Container {
     private _wordsOffset: number = 5;
     private _timePerWord: number = 0;
     private _iconsScale: number = 0.25;
+    private _active: boolean;
 
     private _defaultAvatar: string = 'Leonard'; 
 
@@ -21,6 +22,7 @@ export default class ChatDialog extends PIXI.Container {
         super();
         this._app = app;
         this._timePerWord = timePerWord;
+        this._active = true;
 
         const usedAvatar = avatars.find(avatar => avatar.name === dialogue.name);
         const isLeft = usedAvatar ? usedAvatar.position === 'left' : false;
@@ -122,6 +124,7 @@ export default class ChatDialog extends PIXI.Container {
         if (!this._dialoguesContainer) return;
     
         for (let i = 0; i < this._dialoguesContainer.children.length; i++) {
+            if (!this._active) return;
             const word = this._dialoguesContainer.children[i];
             const timeToWait = word instanceof PIXI.BitmapText ? word.text.length * this._timePerWord : this._timePerWord;
             await this._delay(timeToWait);
@@ -133,6 +136,10 @@ export default class ChatDialog extends PIXI.Container {
     
     private _delay(seconds: number): Promise<void> {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    }
+
+    public stopShowingDialog(): void { 
+        this._active = false;
     }
     
 }
