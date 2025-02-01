@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import ChatDialog from './ChatDialog';
 import gsap from 'gsap';
 
-import gameConfig from '../../assets/data/magic_words_config.json';
+import gameConfig from '../../../assets/data/magic_words_config.json';
 
 export default class ChatManager extends PIXI.Container {
     private _app: PIXI.Application;

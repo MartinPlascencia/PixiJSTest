@@ -1,10 +1,8 @@
 import * as PIXI from 'pixi.js';
-import FireParticles from '../helpers/FireParticles';
+import FireParticles from '../helpers/fire/FireParticles';
 import { Scene } from '../helpers/Scene';
 import Fps from '../helpers/Fps';
 import TopGameMenu from '../helpers/TopGameMenu';
-
-import assetsData from '../../assets/data/assets.json';
 
 import sound from '../utilities/Sound';
 
@@ -24,27 +22,10 @@ export default class Fire extends Scene {
 
     protected onInit(): void {
 
-        this.preloadAssets();
-    }
+        this._create();
+    }  
 
-    private  preloadAssets(): void {
-        const currentBundle = assetsData["gameAssets"];
-        PIXI.Assets.addBundle("gameAssets",currentBundle.assets.sprites);
-        PIXI.Assets.loadBundle("gameAssets", (progress) => {
-            console.log('Loading progress:', progress);
-        }).then(async (resources) => {
-            console.log('Assets loaded:', resources);
-            await this.loadSounds(currentBundle.assets.sounds);
-            this.create();
-        });
-    }
-
-    private async loadSounds(sounds: { [key: string]: string }): Promise<void> {
-        await Promise.all(Object.entries(sounds).map(([key, url]) => sound.loadSound(key, url)));
-        console.log('Sounds loaded');
-    }   
-
-    private create(): void {
+    private _create(): void {
 
         const background = new PIXI.Graphics().rect(0, 0, this._app.screen.width, this._app.screen.height).fill(0x000000);
         this._app.stage.addChild(background);
@@ -69,6 +50,7 @@ export default class Fire extends Scene {
         this._followMouse();
         this._createFPSCounter();
         this._createTopGameMenu();
+        //this._addEffects();
     }
 
     private _followMouse(): void {

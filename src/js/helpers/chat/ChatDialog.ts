@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
-import StringUtils from './StringUtils';
-import { resolve } from '../../../webpack.config';
+import StringUtils from '../StringUtils';
+import { resolve } from '../../../../webpack.config';
 
-import sound from '../utilities/Sound';
+import sound from '../../utilities/Sound';
 
 export default class ChatDialog extends PIXI.Container {
     private _app: PIXI.Application;

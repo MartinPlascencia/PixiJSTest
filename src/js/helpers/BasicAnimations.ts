@@ -2,10 +2,6 @@ import gsap from "gsap";
 import * as PIXI from "pixi.js";
 export default class BasicAnimations {
 
-    constructor(){
-
-    }
-
     public animateButton(buttonContainer: PIXI.Container | PIXI.Sprite, callback?: () => void): void {
         buttonContainer.eventMode = 'none';
         

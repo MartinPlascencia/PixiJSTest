@@ -1,14 +1,11 @@
 import * as PIXI from 'pixi.js';
 import BasicAnimations from '../helpers/BasicAnimations';
-import CardDeck from '../helpers/CardDeck';
-import CardsDeckManager from '../helpers/CardsDeckManager';
+import CardDeck from '../helpers/cards/CardDeck';
+import CardsDeckManager from '../helpers/cards/CardsDeckManager';
 import Fps from '../helpers/Fps';
 import TopGameMenu from '../helpers/TopGameMenu';
 import { Scene } from '../helpers/Scene';
-import { sceneManager } from '../main';
-import FireScene from './FireScene';
 
-import assetsData from '../../assets/data/assets.json';
 import gameConfig from '../../assets/data/ace_of_shadows_config.json';
 
 import sound from '../utilities/Sound';
@@ -27,27 +24,10 @@ export default class CardsScene extends Scene {
     }
 
     protected onInit(): void {
-        this.create();
+        this._create();
     }
 
-    /* private  preloadAssets(): void {
-        const currentBundle = assetsData["gameAssets"];
-        PIXI.Assets.addBundle("gameAssets",currentBundle.assets.sprites);
-        PIXI.Assets.loadBundle("gameAssets", (progress) => {
-            console.log('Loading progress:', progress);
-        }).then(async (resources) => {
-            console.log('Assets loaded:', resources);
-            await this.loadSounds(currentBundle.assets.sounds);
-            this.create();
-        });
-    }
-
-    private async loadSounds(sounds: { [key: string]: string }): Promise<void> {
-        await Promise.all(Object.entries(sounds).map(([key, url]) => sound.loadSound(key, url)));
-        console.log('Sounds loaded');
-    }   */ 
-
-    private create(): void {
+    private _create(): void {
 
         sound.playSound('walking_jazz', true,0.5);
         
