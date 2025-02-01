@@ -6,10 +6,6 @@ import sound from '../utilities/Sound';
 
 export default class CardsDeckManager {
 
-    constructor() {
-
-    }
-
     public moveCardsToDeck(stage : PIXI.Container,initialDeck : CardDeck, finalDeck : CardDeck, moveFrequency : number, timeToMove : number): void {
         const cards = initialDeck.children;
         const moveInterval = setInterval(() => {
@@ -30,6 +26,14 @@ export default class CardsDeckManager {
                         clearInterval(moveInterval);
                     }
                 }
+            });
+
+            gsap.to(card.scale, {
+                x: card.scale.x * 1.2,
+                y: card.scale.y * 1.2,
+                yoyo: true,
+                repeat: 1,
+                duration: 0.2,
             });
         }, moveFrequency * 1000);
     }

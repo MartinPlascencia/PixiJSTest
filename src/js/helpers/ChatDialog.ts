@@ -11,6 +11,7 @@ export default class ChatDialog extends PIXI.Container {
     private _dialogWidth: number = 0;
     private _wordsOffset: number = 5;
     private _timePerWord: number = 0;
+    private _iconsScale: number = 0.25;
 
     private _defaultAvatar: string = 'Leonard'; 
 
@@ -64,6 +65,10 @@ export default class ChatDialog extends PIXI.Container {
 
     private _createDialogueFrame(text: string, isLeft: boolean): void {
 
+        let obj = new PIXI.Graphics().roundRect(isLeft ? 110 : 50, -50, this._dialogWidth *0.95, 100, 12).fill(0x000000);
+        obj.alpha = 0.8;
+        this.addChild(obj);
+
         this._dialoguesContainer = new PIXI.Container();
         this.addChild(this._dialoguesContainer);
         
@@ -100,7 +105,7 @@ export default class ChatDialog extends PIXI.Container {
         if (stringUtils.hasCurlyBraces(word)) {
             const textureKey = stringUtils.removeCurlyBraces(word);
             const sprite = new PIXI.Sprite(PIXI.Cache.get(textureKey));
-            sprite.scale.set(0.2);
+            sprite.scale.set(this._iconsScale);
             return sprite;
         } else {
             return new PIXI.BitmapText(word, {

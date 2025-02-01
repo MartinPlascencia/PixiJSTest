@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
-import gsap from 'gsap';
 import BasicAnimations from '../helpers/BasicAnimations';
 import CardDeck from '../helpers/CardDeck';
 import CardsDeckManager from '../helpers/CardsDeckManager';
+import Fps from '../helpers/Fps';
 import { Scene } from '../helpers/Scene';
 
 import assetsData from '../../assets/data/assets.json';
@@ -14,6 +14,7 @@ export default class CardsScene extends Scene {
 
     private _app: PIXI.Application;
     private _basicAnimations: BasicAnimations;
+    private _fpsCounter?: Fps;
 
     constructor(app: PIXI.Application) {
         super();
@@ -66,6 +67,7 @@ export default class CardsScene extends Scene {
         this._app.stage.addChild(bitmapFontText);
 
         this._createCardDecks();
+        this._createFPSCounter();
     }
 
     private _createCardDecks(): void {
@@ -83,5 +85,9 @@ export default class CardsScene extends Scene {
         const cardsDeckManager = new CardsDeckManager();
         cardsDeckManager.moveCardsToDeck(this._app.stage, cardDeck, cardDeck2, gameConfig.cards_change_frequency, gameConfig.cards_change_speed);
 
+    }
+
+    private _createFPSCounter(): void {
+        this._fpsCounter = new Fps(this._app, 'FPS: 0');
     }
 }

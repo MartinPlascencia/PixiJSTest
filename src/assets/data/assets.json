@@ -5,7 +5,9 @@
                 "pop": "assets/sounds/pop.mp3",
                 "card_sound": "assets/sounds/card_sound.mp3",
                 "walking_jazz": "assets/sounds/walking_jazz.mp3",
-                "typing_sound": "assets/sounds/typing_sound.mp3" 
+                "typing_sound": "assets/sounds/typing_sound.mp3",
+                "fire_sound": "assets/sounds/fire_sound.mp3",
+                "bbt_song": "assets/sounds/bbt_song.mp3"
             },
             "sprites": {
                 "gameAtlas": "assets/images/game/game.json",

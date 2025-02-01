@@ -34,7 +34,7 @@ async function InitializeApp(){
 
     document.body.appendChild(app.canvas);
     sceneManager = new SceneManager(app);
-    sceneManager.changeScene(new FireScene(app));
+    sceneManager.changeScene(new ChatScene(app));
 
     app.ticker.add((delta: PIXI.Ticker) => {
         sceneManager.update(delta.deltaTime);

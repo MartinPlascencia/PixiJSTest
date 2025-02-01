@@ -32,10 +32,8 @@
     "ws": "^8.18.0"
   },
   "dependencies": {
-    "@pixi/particle-emitter": "^5.0.8",
     "gsap": "^3.12.7",
     "npm-check-unused": "^6.0.0",
-    "pixi-particles": "^4.3.1",
     "pixi.js": "8.0"
   }
 }

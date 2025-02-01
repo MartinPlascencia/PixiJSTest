@@ -3,6 +3,7 @@ import BasicAnimations from '../helpers/BasicAnimations';
 import IconsManager from '../helpers/IconsManager';
 import ChatManager from '../helpers/ChatManager';
 import { Scene } from '../helpers/Scene';
+import Fps from '../helpers/Fps';
 
 import assetsData from '../../assets/data/assets.json';
 
@@ -13,6 +14,7 @@ export default class ChatScene extends Scene {
     private _app: PIXI.Application;
     private _basicAnimations: BasicAnimations;
     private _chatData?: JSON;
+    private _fpsCounter?: Fps;
 
     constructor(app: PIXI.Application) {
         super();
@@ -56,6 +58,12 @@ export default class ChatScene extends Scene {
         this._app.stage.addChild(chatManager);
 
         chatManager.showDialogs(this._chatData);
+        this._createFpsCounter();
+        
+        sound.playSound('bbt_song', true,0.2);
+    }
 
+    private _createFpsCounter(): void {
+        this._fpsCounter = new Fps(this._app,'');
     }
 }
