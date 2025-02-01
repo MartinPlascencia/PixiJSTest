@@ -8,8 +8,7 @@ export default class IconsManager {
 
         const iconPromises = data.emojies.map(async (icon: { [key: string]: string }) => {
             const imageUrl = this._notWorkingEmojies.includes(icon.name) 
-                ? 'https://cdn-icons-png.flaticon.com/128/1791/1791330.png'
-                : icon.url;
+                ? 'https://cdn-icons-png.flaticon.com/128/1791/1791330.png': icon.url;
             return this._addImageToCache(imageUrl, icon.name);
         });
     

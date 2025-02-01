@@ -2,7 +2,7 @@
 
 "card_0":
 {
-	"frame": {"x":1,"y":1,"w":150,"h":207},
+	"frame": {"x":337,"y":1,"w":150,"h":207},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":207},
@@ -10,7 +10,7 @@
 },
 "card_1":
 {
-	"frame": {"x":153,"y":1,"w":150,"h":207},
+	"frame": {"x":337,"y":210,"w":150,"h":207},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":207},
@@ -18,7 +18,7 @@
 },
 "card_2":
 {
-	"frame": {"x":305,"y":1,"w":150,"h":207},
+	"frame": {"x":489,"y":1,"w":150,"h":207},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":207},
@@ -26,11 +26,19 @@
 },
 "card_3":
 {
-	"frame": {"x":457,"y":1,"w":150,"h":207},
+	"frame": {"x":489,"y":210,"w":150,"h":207},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":150,"h":207},
 	"sourceSize": {"w":150,"h":207}
+},
+"fire_spark":
+{
+	"frame": {"x":1,"y":1,"w":370,"h":334},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":46,"w":370,"h":334},
+	"sourceSize": {"w":420,"h":420}
 }},
 "animations": {
 	"card": ["card_0","card_1","card_2","card_3"]
@@ -40,8 +48,8 @@
 	"version": "1.1",
 	"image": "game.png",
 	"format": "RGBA8888",
-	"size": {"w":608,"h":209},
+	"size": {"w":640,"h":418},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4159b438fc1e7b6eedf7c5b4c973f0db:cdc1b8b5e96f752a6b4ff99b035bca53:fc2835210f98bae8e8c1b7f0a84c9321$"
+	"smartupdate": "$TexturePacker:SmartUpdate:8a6092039f60962011e4d516149e4fe9:3204d412d87ee278569536197bf32ca2:fc2835210f98bae8e8c1b7f0a84c9321$"
 }
 }

@@ -1,35 +1,23 @@
 import * as PIXI from 'pixi.js';
-import BasicAnimations from '../helpers/BasicAnimations';
-import IconsManager from '../helpers/IconsManager';
-import ChatManager from '../helpers/ChatManager';
+import FireParticles from '../helpers/FireParticles';
 import { Scene } from '../helpers/Scene';
 
 import assetsData from '../../assets/data/assets.json';
 
 import sound from '../utilities/Sound';
-import LoadJSON from '../helpers/LoadJSON';
 
-export default class ChatScene extends Scene {
+export default class Fire extends Scene {
     private _app: PIXI.Application;
-    private _basicAnimations: BasicAnimations;
-    private _chatData?: JSON;
+    private _fireContainer?: PIXI.Container;
 
     constructor(app: PIXI.Application) {
         super();
         this._app = app;
-        this._basicAnimations = new BasicAnimations();
     }
 
     protected onInit(): void {
 
-        const loadJson = new LoadJSON();
-        loadJson.loadJson('https://private-624120-softgamesassignment.apiary-mock.com/v2/magicwords').then(async (data) => {
-
-            this._chatData = data;
-            const iconsManager =  new IconsManager();
-            await iconsManager.saveIconsToCache(data)
-            this.preloadAssets();
-        });
+        this.preloadAssets();
     }
 
     private  preloadAssets(): void {
@@ -51,11 +39,19 @@ export default class ChatScene extends Scene {
 
     private create(): void {
 
-        const chatManager = new ChatManager(this._app);
-        chatManager.y = this._app.screen.height * 0.8;
-        this._app.stage.addChild(chatManager);
+        const blackOverlay = new PIXI.Graphics();
+        blackOverlay.beginFill(0x000000);
+        blackOverlay.drawRect(0, 0, this._app.screen.width, this._app.screen.height);
+        blackOverlay.endFill();
+        this._app.stage.addChild(blackOverlay);
+        
+        this._fireContainer = new FireParticles(10);
+        this._fireContainer.position.set(this._app.screen.width * 0.5, this._app.screen.height * 0.5);
+        this._app.stage.addChild(this._fireContainer);
 
-        chatManager.showDialogs(this._chatData);
-
+        this._app.stage.interactive = true;
+        this._app.stage.on('pointermove', (event: PIXI.FederatedPointerEvent) => {
+            this._fireContainer?.position.set(event.global.x, event.global.y);
+        });
     }
 }
